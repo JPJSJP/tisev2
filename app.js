@@ -26,7 +26,7 @@ var jsonParser = bodyParser.json();
 var db = mysql.createConnection({
 	host : 'localhost',
 	user : 'root',
-	password : 'jsjp0224',
+	password : '',
 	database : 'aed_data'
 });
 
