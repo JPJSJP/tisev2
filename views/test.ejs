@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>aed browser</title>
+    <style type="text/css"> 
+        audio {
+            display:none;
+        }
+    </style>
+
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDRhd77wKb_srqWfMOyQlGANl1NdB8SWcw"></script>
+    <script>
+        function initialize() {
+
+            /*
+                http://openapi.map.naver.com/api/geocode.php?key=f32441ebcd3cc9de474f8081df1e54e3&encoding=euc-kr&coord=LatLng&query=서울특별시 강남구 강남대로 456
+                위의 링크에서 뒤에 주소를 적으면 x,y 값을 구할수 있습니다.
+            */
+            var Y_point         = 37.5608439;        // Y 좌표
+            var X_point         = 126.9355021;       // X 좌표
+
+            var zoomLevel       = 17;                       // 지도의 확대 레벨 : 숫자가 클수록 확대정도가 큼
+
+            var markerTitle     = "aed";             // 현재 위치 마커에 마우스를 오버을때 나타나는 정보
+            var markerMaxWidth  = 300;                      // 마커를 클릭했을때 나타나는 말풍선의 최대 크기
+
+            // 말풍선 내용
+            var contentString   = ''
+
+            var myLatlng = new google.maps.LatLng(Y_point, X_point);
+            var mapOptions = {
+                                zoom: zoomLevel,
+                                center: myLatlng,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            var map = new google.maps.Map(document.getElementById('map_view'), mapOptions);
+
+            var marker = new google.maps.Marker({
+                                                    position: myLatlng,
+                                                    map: map,
+                                                    title: markerTitle
+            });
+
+            var infowindow = new google.maps.InfoWindow(
+                                                        {
+                                                            content: contentString,
+                                                            maxWidth: markerMaxWidth
+                                                        }
+            );
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, marker);
+            });
+        }
+    </script>
+
+
+
+</head>
+
+<body onload="initialize()">
+    <div id="map_view" style="width:500px; height:300px;"></div>
+    <!--<div id="checkWord">i am here!</div>-->
+    <div class="check"></div>
+    <div class="teest"></div>;
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            function start(){
+                setTimeout(start,3000);
+                $.ajax({
+                    url:'http://45.76.197.124:3000/aedRequest',
+                    success:function(data){
+                        if(data.length > 3) {
+                        $(".check").html('<audio controls autoplay="autoplay"><source src="policesiren.wav" type="audio/wav">Your browser does not support the audio element.</audio>');
+                        
+                        setTimeout(function(){$(".check").html('<audio controls autoplay="autoplay"><source src="tts1.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>');}, 3000);
+
+                function reInit() {
+            /*
+                http://openapi.map.naver.com/api/geocode.php?key=f32441ebcd3cc9de474f8081df1e54e3&encoding=euc-kr&coord=LatLng&query=서울특별시 강남구 강남대로 456
+                위의 링크에서 뒤에 주소를 적으면 x,y 값을 구할수 있습니다.
+            */
+
+            var Y_point         = 37.5608439;        // Y 좌표
+            var X_point         = 126.9355021;       // X 좌표
+
+
+            var zoomLevel       = 17;                       // 지도의 확대 레벨 : 숫자가 클수록 확대정도가 큼
+
+            var markerTitle     = "aed";             // 현재 위치 마커에 마우스를 오버을때 나타나는 정보
+            var markerMaxWidth  = 300;                      // 마커를 클릭했을때 나타나는 말풍선의 최대 크기
+
+            // 말풍선 내용
+            var contentString   = '';
+
+            var myLatlng = new google.maps.LatLng(Y_point, X_point);
+            var mapOptions = {
+                                zoom: zoomLevel,
+                                center: myLatlng,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            var map = new google.maps.Map(document.getElementById('map_view'), mapOptions);
+
+            var marker = new google.maps.Marker({
+                                                    position: myLatlng,
+                                                    map: map,
+                                                    title: markerTitle
+            });
+
+
+            var json_data = JSON.parse(data)
+
+            var user_Y_point = json_data.userY;        // Y 좌표
+            var user_X_point = json_data.userX;       // X 좌표
+
+            var myLatlng2 = new google.maps.LatLng(user_Y_point, user_X_point);
+
+            var GreenIcon = new google.maps.MarkerImage(
+                "http://labs.google.com/ridefinder/images/mm_20_green.png",
+                new google.maps.Size(12, 20),
+               new google.maps.Point(0, 0),
+               new google.maps.Point(6, 20)
+            );
+
+
+            var marker2 = new google.maps.Marker({
+                                                    icon: GreenIcon,
+                                                    position: myLatlng2,
+                                                    map: map,
+                                                    title: markerTitle
+            });
+
+            var infowindow = new google.maps.InfoWindow(
+                                                        {
+                                                            content: contentString,
+                                                            maxWidth: markerMaxWidth
+                                                        }
+            );
+/*
+            var infowindow2 = new google.maps.InfoWindow(
+                                                        {
+                                                            content: contentString,
+                                                            maxWidth: markerMaxWidth
+                                                        }
+            );
+*/
+
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, marker);
+                infowindow.open(map,marker2);
+            });
+        }
+            reInit();
+                        //$(".check").text("success");
+                    }}
+            
+                });
+            }
+            start();
+        });
+    </script>
+</body>
+</html>
+
